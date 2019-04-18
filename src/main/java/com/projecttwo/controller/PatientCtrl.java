@@ -2,8 +2,11 @@ package com.projecttwo.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,16 +26,27 @@ public class PatientCtrl {
 		return patService.getAllPatients();
 	}
 	
-	@RequestMapping(value="/insertpatient", method=RequestMethod.GET, params = {"username", "password","firstName","lastName"})
-	public Patient insertPatient(String username,String password, String firstName,String lastName) {
+	
+	@RequestMapping(value = "/insertPatient", method = RequestMethod.POST)
+	public Patient insertPatient(@RequestBody Patient patient) {
 		
-		Patient p = patService.insertPatient(username, password, firstName, lastName);
+		Patient p = patService.insertPatient(patient.getUserName(), patient.getPassWord(), patient.getFirstName(),patient.getLastName(),  patient.getSsN(),patient.getGender(),patient.getPhone(), patient.getEmail(), patient.getStreet(), patient.getCity(), patient.getState(), patient.getZipcode());
 		return p;
 	}
 	
-	@RequestMapping(value="/login", method = RequestMethod.GET, params = { "username", "password"})
-	public Patient getPatient(String username, String password) {
-		Patient p = patService.getPatient(username, password);
-		return p;
+	@RequestMapping(value="/loginpat", method = RequestMethod.POST)
+	public Patient getPatient(@RequestBody Patient patient) throws ServletException {
+		Patient p = patService.getPatient(patient.getUserName(), patient.getPassWord());
+		if (p == null) {
+			throw new ServletException("invalid Username or Password.");
+		} else {
+			return p;
+		}
 	}
+	
+//	@RequestMapping(value="/login", method = RequestMethod.GET, params = { "username", "password"})
+//	public Patient getPatient(String username, String password) {
+//		Patient p = patService.getPatient(username, password);
+//		return p;
+//	}
 }

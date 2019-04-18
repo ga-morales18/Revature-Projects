@@ -14,19 +14,19 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name="Condition")
+@Table(name = "Condition")
 @Component
 public class Condition {
-	
+
 	@Id
-	@Column(name="condition_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "condition_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int conditionId;
-	
-	@Column(name="condition")
+
+	@Column(name = "condition")
 	private String condition;
-	
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy="conditions")
+
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "conditions")
 	private List<Doctor> doctors;
 
 	public int getConditionId() {
@@ -70,10 +70,8 @@ public class Condition {
 		this.condition = condition;
 		this.doctors = doctors;
 	}
-	
+
 	public Condition() {
-		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 }
